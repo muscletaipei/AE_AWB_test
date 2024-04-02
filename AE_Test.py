@@ -8,7 +8,6 @@ import shutil
 import time
 timestr = time.strftime("%Y%m%d") #%Y%m%d%H%M%S
 
-
 def extract_frames(video_path, output_folder):
     # Open the video file
     cap = cv2.VideoCapture(video_path)
@@ -47,9 +46,10 @@ def extract_frames(video_path, output_folder):
         time_sec = frame_count / fps
         times.append(time_sec)
         
-        # Save the frame as image (HD resolution)
+        # Save every frame as image (HD resolution)
         frame_filename = f"{output_folder}/frame_{frame_count}.jpg"
-        cv2.imwrite(frame_filename, frame)
+        resized_frame = cv2.resize(frame, (1280, 720))
+        cv2.imwrite(frame_filename, resized_frame)
         
         frame_count += 1
         progress_bar.update(1)
@@ -60,10 +60,12 @@ def extract_frames(video_path, output_folder):
     print(f"Frames extracted: {frame_count}/{total_frames}")
     
     # Plot brightness values
+    plt.figure(figsize=(10, 6))
     plt.plot(times, brightness_values)
     plt.title('AE_Test')
-    plt.xlabel('Time (seconds)')
+    plt.xlabel('Frame')
     plt.ylabel('Brightness')
+    plt.grid(True)
     plt.savefig(f"AE_Test.png")
     plt.show()
     plt.close()
@@ -74,16 +76,15 @@ def select_video_file():
     video_path = filedialog.askopenfilename(title="Select a video file")
     return video_path
 
-if __name__ == "__main__":
-    
-    print("Press Enter when you're ready to select the video file.")
+def main():
+    print("select when you're ready to select the video file.")
     
     # Prompt user to select a video file using a GUI
     time.sleep(1)
     video_path = select_video_file()
     
     # Set output folder in temp directory
-    output_folder = os.path.join("temp", timestr)
+    output_folder = "temp"
     
     # Call the function with user input
     extract_frames(video_path, output_folder)
@@ -91,3 +92,6 @@ if __name__ == "__main__":
     print("Delete 'temp' folder now.....")
     # Remove temporary folder and its contents
     shutil.rmtree("temp")
+    
+if __name__ == "__main__":
+    main()
