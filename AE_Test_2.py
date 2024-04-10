@@ -111,11 +111,14 @@ def close_messagebox():
         messagebox_id = None
 
 def end_program():
-    global root  # 使用全局變數
+    global root  # 使用全局变量
     # Remove temporary folder and its contents
     print("Deleting 'temp' folder...")
-    shutil.rmtree("temp")
-    print("'temp' folder deleted.")
+    try:
+        shutil.rmtree("temp")
+        print("'temp' folder deleted.")
+    except FileNotFoundError:
+        print("'temp' folder not found.")
     # Exit the program
     root.quit()
 
@@ -127,8 +130,12 @@ def main():
     global root  # 使用全局變數
     # Create Tkinter window
     root = Tk()
-    root.geometry("600x400")
+    root.geometry("500x200")
     root.title("Video AE TEST")
+
+    # Label for step 1
+    step1_label = Label(root, text="Step 1")
+    step1_label.place(relx=0.1,rely=0.1)
 
     # Dropdown menu for resize options
     resize_options = ["HD", "640X480", "720P"]
@@ -137,26 +144,21 @@ def main():
     resize_dropdown = OptionMenu(root, resize_variable, *resize_options, command=change_resize_option)
     resize_dropdown.place(relx=0.1,rely=0.2)
 
-    # Label for step 1
-    step1_label = Label(root, text="Step 1")
-    step1_label.place(relx=0.1,rely=0.1)
-
-    # Button to select video
-    execute_button = Button(root, text="Select video", command=execute_program)
-    execute_button.place(relx=0.3,rely=0.2)
-
     # Label for step 2
     step2_label = Label(root, text="Step 2")
     step2_label.place(relx=0.3,rely=0.1)
 
-    # Button to end the program
-    end_button = Button(root, text="Close Program", command=end_program)
-    end_button.place(relx=0.5,rely=0.2)
-
+    # Button to select video
+    execute_button = Button(root, text="Select AE_video", command=execute_program)
+    execute_button.place(relx=0.3,rely=0.2)
+    
     # Label for step 3
     step3_label = Label(root, text="Step 3")
-    step3_label.place(relx=0.5,rely=0.1)
+    step3_label.place(relx=0.6,rely=0.1)
 
+    # Button to end the program
+    end_button = Button(root, text="Close Program", command=end_program)
+    end_button.place(relx=0.6,rely=0.2)
 
     root.mainloop()
 
