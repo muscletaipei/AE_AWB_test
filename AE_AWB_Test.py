@@ -96,7 +96,7 @@ def extract_frames_ae(video_path, output_folder, selected_size):
     plt.title('AE_Test')
     plt.xlabel('Frame')
     plt.ylabel('Brightness')
-    plt.grid(True)
+    # plt.grid(True)
     plt.savefig(f"AE_Test.png")
     plt.show()
     plt.close()
@@ -159,7 +159,7 @@ def plot_color_temperature_over_time(color_temp_values, fps):
     plt.title('AWB_Test')
     plt.xlabel('Frame')
     plt.ylabel('Color Temperature (K)')
-    plt.grid(True)
+    # plt.grid(True)
     plt.savefig('AWB_Test.png')
     plt.show()
 
